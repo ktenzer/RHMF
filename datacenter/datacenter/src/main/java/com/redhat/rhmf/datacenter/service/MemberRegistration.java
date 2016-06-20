@@ -22,6 +22,9 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+
 import java.util.logging.Logger;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
@@ -41,5 +44,15 @@ public class MemberRegistration {
         log.info("Registering " + member.getName());
         em.persist(member);
         memberEventSrc.fire(member);
+        
+    	String server = "tcp://rhmfgateway:1883";
+    	//String topic = "nodemcu/13574805";
+    	String topic = "nodemcu/13574211";
+    	String message = "LED_TOP_GREEN=ON\nLED_TOP_BLUE=ON";
+        
+        MQQTService mqqt = new MQQTService();
+        MqttClient client = mqqt.getConnection(server);
+        mqqt.sendMessage(client, topic, message);
+        mqqt.disconnect(client);
     }
 }

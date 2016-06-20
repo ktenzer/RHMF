@@ -89,7 +89,7 @@
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
+            </dependency>           
         </dependencies>
     </dependencyManagement>
     
@@ -182,6 +182,12 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
+
+		<dependency>
+    		<groupId>org.eclipse.paho</groupId>
+   			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+   			<version>1.0.2</version>
+		</dependency>   
 
     </dependencies>
 
