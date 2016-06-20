@@ -3,12 +3,14 @@ local module = {}
 m = nil
 
 -- Sends a simple ping to the broker
-local function send_ping()  
+local function send_ping()   
+    print ("send ping")
     m:publish(config.MQTT_ENDPOINT .. "ping","id=" .. config.MQTT_ID,0,0)
 end
 
 -- Sends my id to the broker for registration
 local function register_myself()  
+    print ("register_myself")
     m:subscribe(config.MQTT_ENDPOINT .. config.MQTT_ID,0,function(conn)
         print("Successfully subscribed to data endpoint")
     end)
