@@ -8,7 +8,7 @@ local function send_ping()
     m:publish(config.MQTT_ENDPOINT .. "ping","id=" .. config.MQTT_ID,0,0)
 end
 
-
+ 
 function module.send_button_message(payload)
     print ("send_button_message")
     message = ""

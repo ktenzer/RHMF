@@ -9,7 +9,7 @@ module.MQTT_PSWD= "admin"
 module.MQTT_ENDPOINT = "rhmfd/"  
 module.MQTT_PING_DELAY = 5000
 
-module.HW_BUTTON_GREEN = 7 
+module.HW_BUTTON_GREEN = 7  
 module.HW_BUTTON_YELLOW = 6
 module.HW_BUTTON_RED = 5
 

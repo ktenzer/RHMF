@@ -41,7 +41,7 @@ function module.check_buttons()
         app.send_button_message(msg)
     end    
 end
-
+  
 function module.start()  
     print ("Hardware start")
     gpio.mode(config.HW_LED_BOTTOM_GREEN, gpio.OUTPUT)
