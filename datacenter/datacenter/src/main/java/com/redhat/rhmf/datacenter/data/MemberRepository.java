@@ -24,6 +24,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.eclipse.paho.client.mqttv3.logging.Logger;
+
 import java.util.List;
 
 @ApplicationScoped
@@ -36,6 +39,7 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
+    /*
     public Member findByEmail(String email) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
@@ -46,6 +50,7 @@ public class MemberRepository {
         criteria.select(member).where(cb.equal(member.get("email"), email));
         return em.createQuery(criteria).getSingleResult();
     }
+    */
 
     public List<Member> findAllOrderedByName() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -54,7 +59,8 @@ public class MemberRepository {
         // Swap criteria statements if you would like to try out type-safe criteria queries, a new
         // feature in JPA 2.0
         // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-        criteria.select(member).orderBy(cb.asc(member.get("name")));
+        criteria.select(member).orderBy(cb.asc(member.get("gateway")));
+        
         return em.createQuery(criteria).getResultList();
     }
 }

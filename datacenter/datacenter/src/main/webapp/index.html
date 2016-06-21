@@ -188,21 +188,18 @@
                             <fieldset>
                                 <legend>Register a member:</legend>
                                 <div class="ui-field-contain">
-                                    <label for="name">Name:</label>
-                                    <input type="text" name="name" id="name" placeholder="Your Name" required autofocus/>
+                                    <label for="gateway">Gateway:</label>
+                                    <input type="text" name="gateway" id="gateway" placeholder="Gateway Address" required autofocus/>
                                 </div>
                                 <div class="ui-field-contain">
-                                    <label for="email">Email:</label>
-                                    <input type="email" name="email" id="email" placeholder="Your Email" required/>
+                                    <label for="device">Device:</label>
+                                    <input type="text" name="device" id="device" placeholder="Device Name" required/>
                                 </div>
-                                <div class="ui-field-contain">
-                                    <label for="phoneNumber">Phone #:</label>
-                                    <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
-                                </div>
+                   
                                 <div id="formMsgs"></div>
                                 <div class="ui-grid-a app-responsive">
-                                    <div class="ui-block-a"><input type="submit" id="register" value="Register" data-theme="b"/></div>
-                                    <div class="ui-block-b"><input type="button" name="cancel" id="cancel" value="Reset"/></div>
+                                    <div class="ui-block-a"><input type="submit" id="register" value="Submit" data-theme="b"/></div>
+                                    <div class="ui-block-b"><input type="button" name="cancel" id="cancel" value="Reset"/></div>                              
                                 </div>
                             </fieldset>
                         </form>
@@ -225,10 +222,9 @@
                             <thead>
                                 <tr>
                                     <th data-priority="1">Id</th>
-                                    <th data-priority="persist">Name</th>
-                                    <th data-priority="2">Email</th>
-                                    <th data-priority="3">Phone #</th>
-                                    <th data-priority="4">REST URL</th>
+                                    <th data-priority="persist">Gateway</th>
+                                    <th data-priority="2">Device</th>
+                                    <th data-priority="3">REST URL</th>
                                 </tr>
                             </thead>
                             <tbody id="members">
@@ -270,9 +266,8 @@
         <% _.each(members, function(member) { %>
         <tr>
             <th><%=member.id%></td>
-            <td><%=member.name%></td>
-            <td><a href="mailto:<%=member.email%>" class="ui-link"><%=member.email%></a></td>
-            <td><a href="tel:<%=member.phoneNumber%>" class="ui-link">Call</a> or <a href="sms:<%=member.phoneNumber%>" class="ui-link">SMS</a> <%=member.phoneNumber%></td>
+            <td><%=member.gateway%></td>
+			<td><%=member.device%></td>
             <td><a href="rest/members/<%=member.id%>" rel="external" target="_blank" class="resturl ui-link">JSON</a></td>
         </tr>
         <% }); %>

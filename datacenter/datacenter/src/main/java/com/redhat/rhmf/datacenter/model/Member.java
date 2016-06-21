@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @XmlRootElement
-@Table(name = "Member_rhmf_", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "Member_rhmf_")
 public class Member implements Serializable {
     /** Default value included to remove warning. Remove or modify at will. **/
     private static final long serialVersionUID = 1L;
@@ -45,20 +45,20 @@ public class Member implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 25, message = "1-25 letters and spaces")
-    @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
-    private String name;
+    //@Size(min = 1, max = 25, message = "1-25 letters and spaces")
+    //@Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
+    private String gateway;
 
     @NotNull
-    @NotEmpty
-    @Email(message = "Invalid format")
-    private String email;
+    //@NotEmpty
+    //@Email(message = "Invalid format")
+    private String device;
 
-    @NotNull
-    @Size(min = 10, max = 12, message = "10-12 Numbers")
-    @Digits(fraction = 0, integer = 12, message = "Not valid")
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    //@NotNull
+    //@Size(min = 10, max = 12, message = "10-12 Numbers")
+    //@Digits(fraction = 0, integer = 12, message = "Not valid")
+    //@Column(name = "phone_number")
+    //private String phoneNumber;
 
     public Long getId() {
         return id;
@@ -68,22 +68,23 @@ public class Member implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGateway() {
+        return gateway;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGateway(String name) {
+        this.gateway = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDevice() {
+        return device;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDevice(String email) {
+        this.device = email;
     }
 
+    /*
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -91,4 +92,5 @@ public class Member implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    */
 }

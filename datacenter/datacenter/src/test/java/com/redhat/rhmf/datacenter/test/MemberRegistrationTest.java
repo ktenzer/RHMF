@@ -108,9 +108,9 @@ public class MemberRegistrationTest {
 
     private Member createMemberInstance(String name, String email, String phone) {
         Member member = new Member();
-        member.setEmail(email);
-        member.setName(name);
-        member.setPhoneNumber(phone);
+        member.setDevice(email);
+        member.setGateway(name);
+        //member.setPhoneNumber(phone);
         return member;
     }
 }

@@ -16,4 +16,4 @@
 --
 
 -- You can use this file to load seed data into the database using SQL statements
-insert into Member_rhmf_ (id, name, email, phone_number) values (0, 'John Smith', 'john.smith@mailinator.com', '2125551212')
+-- insert into Member_rhmf_ (id, gateway, device) values (0, 'tcp://rhmfgateway:1883', '13574805')

@@ -18,6 +18,7 @@ package com.redhat.rhmf.datacenter.rest;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,8 +42,11 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.paho.client.mqttv3.MqttClient;
+
 import com.redhat.rhmf.datacenter.data.MemberRepository;
 import com.redhat.rhmf.datacenter.model.Member;
+import com.redhat.rhmf.datacenter.service.MQQTService;
 import com.redhat.rhmf.datacenter.service.MemberRegistration;
 
 /**
@@ -65,10 +69,22 @@ public class MemberService {
 
     @Inject
     MemberRegistration registration;
+    
+    MQQTService mqqt = new MQQTService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
+    	/*
+    	for (Iterator<Member> membersIter = repository.findAllOrderedByName().iterator(); membersIter.hasNext();){
+    		String message = "push message";
+    		
+    		MqttClient client = mqqt.getConnection(membersIter.next().getGateway());
+    		mqqt.sendMessage(client, membersIter.next().getDevice() , message);
+    		mqqt.disconnect(client);
+    	}
+    */
+    	
         return repository.findAllOrderedByName();
     }
 
@@ -99,7 +115,7 @@ public class MemberService {
             validateMember(member);
 
             registration.register(member);
-
+            
             // Create an "ok" response
             builder = Response.ok().entity(member);
         } catch (ConstraintViolationException ce) {
@@ -120,6 +136,7 @@ public class MemberService {
         return builder.build();
     }
 
+    
     /**
      * <p>
      * Validates the given Member variable and throws validation exceptions based on the type of error. If the error is standard
@@ -142,10 +159,12 @@ public class MemberService {
             throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
         }
 
+        /*
         // Check the uniqueness of the email address
-        if (emailAlreadyExists(member.getEmail())) {
+        if (emailAlreadyExists(member.getDevice())) {
             throw new ValidationException("Unique Email Violation");
         }
+        */
     }
 
     /**
@@ -174,6 +193,8 @@ public class MemberService {
      * @param email The email to check
      * @return True if the email already exists, and false otherwise
      */
+    
+    /*
     public boolean emailAlreadyExists(String email) {
         Member member = null;
         try {
@@ -183,4 +204,5 @@ public class MemberService {
         }
         return member != null;
     }
+    */
 }

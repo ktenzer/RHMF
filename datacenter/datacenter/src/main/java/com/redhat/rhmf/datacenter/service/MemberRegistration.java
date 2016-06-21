@@ -41,18 +41,20 @@ public class MemberRegistration {
     private Event<Member> memberEventSrc;
 
     public void register(Member member) throws Exception {
-        log.info("Registering " + member.getName());
+        log.info("Registering " + member.getGateway());
         em.persist(member);
         memberEventSrc.fire(member);
         
     	String server = "tcp://rhmfgateway:1883";
-    	//String topic = "nodemcu/13574805";
-    	String topic = "nodemcu/13574211";
-    	String message = "LED_TOP_GREEN=ON\nLED_TOP_BLUE=ON";
+    	String topic = "rhmfd/8635183";
+    	//String topic = "nodemcu/13574211";
+    	String message = "LED_TOP_GREEN=ON" + "\n" + "LED_TOP_BLUE=ON";
         
         MQQTService mqqt = new MQQTService();
         MqttClient client = mqqt.getConnection(server);
+        mqqt.parseMessages(client, member.getDevice());
         mqqt.sendMessage(client, topic, message);
         mqqt.disconnect(client);
     }
-}
+    
+} 
