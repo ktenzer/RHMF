@@ -7,13 +7,27 @@ local function send_ping()
     print ("send ping")
     m:publish(config.MQTT_ENDPOINT .. "ping","id=" .. config.MQTT_ID,0,0)
 end
-
+ 
 -- Sends my id to the broker for registration
 local function register_myself()  
     print ("register_myself")
     m:subscribe(config.MQTT_ENDPOINT .. config.MQTT_ID,0,function(conn)
         print("Successfully subscribed to data endpoint")
     end)
+end
+
+local function handle_command(command, value)
+    print ("handle_command " .. command .. "=" .. value)
+    hardware.set_led(command, value)
+end
+
+local function handle_message(topic, message)
+    for line in message:gmatch("[^\r\n]+") do 
+        print ("handle_message: line=" .. line)
+        for key, value in string.gmatch(line, "(.+)=(.+)") do
+            handle_command(key, value) 
+        end
+    end
 end
 
 local function mqtt_start()  
@@ -23,7 +37,7 @@ local function mqtt_start()
     m:on("message", function(conn, topic, data) 
       if data ~= nil then
         print(topic .. ": " .. data)
-        -- do something, we have received a message
+        handle_message(topic, data)
       end
     end)
     -- Connect to broker
@@ -31,15 +45,15 @@ local function mqtt_start()
     m:connect(config.MQTT_HOST, config.MQTT_PORT, 0, 1, function(con) 
         print ("Connected to mqtt broker")
         register_myself()
-        -- And then pings each 1000 milliseconds
+        -- And then pings each 2000 milliseconds
         tmr.stop(6)
-        tmr.alarm(6, 1000, 1, send_ping)
-    end) 
-
+        tmr.alarm(6, 2000, 1, send_ping)
+    end)    
 end
-
+ 
 function module.start()   
   print ("Application starting")
+  hardware.start()
   mqtt_start() 
 end 
  

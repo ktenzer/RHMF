@@ -2,7 +2,7 @@
 local module = {}
 
 function module.start()  
-    print("Starting end user setup XXX")
+    print("Starting end user setup")
     enduser_setup.start(
       function()
         print("Connected to wifi as:" .. wifi.sta.getip())
@@ -14,5 +14,5 @@ function module.start()
       end 
     ); 
 end
-
+ 
 return module   
