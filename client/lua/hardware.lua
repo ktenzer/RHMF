@@ -13,32 +13,33 @@ btn_red_state=0
 btn_green_state=0
 btn_yellow_state=0  
 
-function module.check_buttons()
-    print ("Check_Buttons")
-    
+function module.check_buttons()    
     state = gpio.read(config.HW_BUTTON_RED)
     msg = ""
     if (state ~= btn_red_state) then
        btn_red_state = state
---       gpio.write(config.HW_LED_BOTTOM_RED, state)
+       gpio.write(config.HW_LED_BOTTOM_RED, state)
        msg = msg .. "BUTTON_RED=" .. state .. "\n"
     end
 
     state = gpio.read(config.HW_BUTTON_GREEN)
     if (state ~= btn_green_state) then
        btn_green_state = state
---       gpio.write(config.HW_LED_BOTTOM_GREEN, state)
+       gpio.write(config.HW_LED_BOTTOM_GREEN, state)
        msg = msg .. "BUTTON_GREEN=" .. state .. "\n"
     end
 
    state = gpio.read(config.HW_BUTTON_YELLOW)
     if (state ~= btn_yellow_state) then
        btn_yellow_state = state
---       gpio.write(config.HW_LED_BOTTOM_YELLOW, state)
+       gpio.write(config.HW_LED_BOTTOM_BLUE, state)
        msg = msg .. "BUTTON_YELLOW=" .. state .. "\n"
     end
 
-    print ("Check_Buttons msg=" .. msg);
+    if (string.len(msg) > 0 ) then
+        print ("Check_Buttons msg=" .. msg);
+        app.send_button_message(msg)
+    end    
 end
 
 function module.start()  
@@ -56,7 +57,7 @@ function module.start()
     gpio.mode(config.HW_BUTTON_RED, gpio.INPUT, gpio.PULLUP)
 
     tmr.stop(5);
-    tmr.alarm(5, 500, tmr.ALARM_AUTO, module.check_buttons);
+    tmr.alarm(5, config.BUTTON_POLL_DELAY, tmr.ALARM_AUTO, module.check_buttons);
 
 end 
  

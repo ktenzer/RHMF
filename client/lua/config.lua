@@ -6,8 +6,8 @@ module.MQTT_PORT = 1883
 module.MQTT_ID = node.chipid()
 module.MQTT_USER= "admin"
 module.MQTT_PSWD= "admin"
-
 module.MQTT_ENDPOINT = "rhmfd/"  
+module.MQTT_PING_DELAY = 5000
 
 module.HW_BUTTON_GREEN = 0 
 module.HW_BUTTON_YELLOW = 1
@@ -35,5 +35,11 @@ module.HW_LED_STATES = {
     ["OFF"] = gpio.HIGH,
 }
 
+module.BUTTON_STATES = {
+    [gpio.LOW] = "ON",
+    [gpio.HIGH] = "OFF",
+}
+  
+module.BUTTON_POLL_DELAY = 100
  
 return module      
