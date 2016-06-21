@@ -21,7 +21,7 @@ function module.check_buttons()
        gpio.write(config.HW_LED_BOTTOM_RED, state)
        msg = msg .. "BUTTON_RED=" .. config.BUTTON_STATES[state] .. "\n"
     end
-
+ 
     state = gpio.read(config.HW_BUTTON_GREEN)
     if (state ~= btn_green_state) then
        btn_green_state = state
@@ -50,7 +50,7 @@ function module.start()
 
     gpio.mode(config.HW_LED_TOP_GREEN, gpio.OUTPUT)
     gpio.mode(config.HW_LED_TOP_BLUE, gpio.OUTPUT)
-    gpio.mode(config.HW_LED_TOP_RED, gpio.OUTPUT)
+    gpio.mode(config.HW_LED_TOP_RED, gpio.OUTPUT, gpio.PULLUP)
  
     gpio.mode(config.HW_BUTTON_GREEN, gpio.INPUT, gpio.PULLUP)    
     gpio.mode(config.HW_BUTTON_YELLOW, gpio.INPUT, gpio.PULLUP)

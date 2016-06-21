@@ -9,25 +9,25 @@ module.MQTT_PSWD= "admin"
 module.MQTT_ENDPOINT = "rhmfd/"  
 module.MQTT_PING_DELAY = 5000
 
-module.HW_BUTTON_GREEN = 0 
-module.HW_BUTTON_YELLOW = 1
-module.HW_BUTTON_RED = 2
+module.HW_BUTTON_GREEN = 7 
+module.HW_BUTTON_YELLOW = 6
+module.HW_BUTTON_RED = 5
 
-module.HW_LED_BOTTOM_GREEN = 3
+module.HW_LED_BOTTOM_GREEN = 4
 module.HW_LED_BOTTOM_BLUE = 4
-module.HW_LED_BOTTOM_RED = 5
+module.HW_LED_BOTTOM_RED = 3
 
-module.HW_LED_TOP_RED = 6 
-module.HW_LED_TOP_GREEN = 7 
-module.HW_LED_TOP_BLUE = 8
+module.HW_LED_TOP_RED = 0 
+module.HW_LED_TOP_GREEN = 2 
+module.HW_LED_TOP_BLUE = 1 
  
 module.HW_LED_PINS = {
-    ["LED_BOTTOM_GREEN"] = 3,
-    ["LED_BOTTOM_BLUE"] = 4,
-    ["LED_BOTTOM_RED"] = 5,   
-    ["LED_TOP_GREEN"] = 6,
-    ["LED_TOP_BLUE"] = 7,
-    ["LED_TOP_RED"] = 8,   
+    ["LED_BOTTOM_GREEN"] = HW_LED_BOTTOM_GREEN,
+    ["LED_BOTTOM_BLUE"] = HW_LED_BOTTOM_BLUE,
+    ["LED_BOTTOM_RED"] = HW_LED_BOTTOM_RED,   
+    ["LED_TOP_GREEN"] = HW_LED_TOP_GREEN,
+    ["LED_TOP_BLUE"] = HW_LED_TOP_BLUE,
+    ["LED_TOP_RED"] = HW_LED_TOP_RED,   
 }
 
 module.HW_LED_STATES = {

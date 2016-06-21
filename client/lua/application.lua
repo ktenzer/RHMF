@@ -17,7 +17,7 @@ function module.send_button_message(payload)
     message = message .. payload
     
     m:publish(config.MQTT_ENDPOINT .. "button", message, 0,0)
-end 
+end  
 -- Sends my id to the broker for registration
 local function register_myself()  
     print ("register_myself")
