@@ -186,14 +186,14 @@
                         <!-- For now mapping bean validation constraints from server side model is a manual task -->
                         <form name="reg" id="reg" data-ajax="false">
                             <fieldset>
-                                <legend>Register a member:</legend>
+                                <legend>Register RHMFD:</legend>
                                 <div class="ui-field-contain">
                                     <label for="gateway">Gateway:</label>
-                                    <input type="text" name="gateway" id="gateway" placeholder="Gateway Address" required autofocus/>
+                                    <input type="text" name="gateway" id="gateway" placeholder="Gateway Address e.g. tcp://rhmfgateway:1883" required autofocus/>
                                 </div>
                                 <div class="ui-field-contain">
-                                    <label for="device">Device:</label>
-                                    <input type="text" name="device" id="device" placeholder="Device Name" required/>
+                                    <label for="device">Topic:</label>
+                                    <input type="text" name="device" id="device" placeholder="Subscribe to a topic" required/>
                                 </div>
                    
                                 <div id="formMsgs"></div>
