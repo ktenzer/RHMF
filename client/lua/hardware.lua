@@ -19,21 +19,21 @@ function module.check_buttons()
     if (state ~= btn_red_state) then
        btn_red_state = state
        gpio.write(config.HW_LED_BOTTOM_RED, state)
-       msg = msg .. "BUTTON_RED=" .. state .. "\n"
+       msg = msg .. "BUTTON_RED=" .. config.BUTTON_STATES[state] .. "\n"
     end
 
     state = gpio.read(config.HW_BUTTON_GREEN)
     if (state ~= btn_green_state) then
        btn_green_state = state
        gpio.write(config.HW_LED_BOTTOM_GREEN, state)
-       msg = msg .. "BUTTON_GREEN=" .. state .. "\n"
+       msg = msg .. "BUTTON_GREEN=" .. config.BUTTON_STATES[state]  ..  "\n"
     end
 
    state = gpio.read(config.HW_BUTTON_YELLOW)
     if (state ~= btn_yellow_state) then
        btn_yellow_state = state
        gpio.write(config.HW_LED_BOTTOM_BLUE, state)
-       msg = msg .. "BUTTON_YELLOW=" .. state .. "\n"
+       msg = msg .. "BUTTON_YELLOW=" .. config.BUTTON_STATES[state]  .. "\n"
     end
 
     if (string.len(msg) > 0 ) then

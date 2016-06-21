@@ -14,8 +14,9 @@ function module.send_button_message(payload)
     message = ""
     message = message .. "id=" .. config.MQTT_ID .. "\n"
     message = message .. "ts=" .. tmr.now() .. "\n"
+    message = message .. payload
     
---    m:publish(config.MQTT_ENDPOINT .. "button", message, 0,0)
+    m:publish(config.MQTT_ENDPOINT .. "button", message, 0,0)
 end 
 -- Sends my id to the broker for registration
 local function register_myself()  
@@ -57,12 +58,13 @@ local function mqtt_start()
         -- And then pings each 2000 milliseconds
         tmr.stop(6) 
         tmr.alarm(6, config.MQTT_PING_DELAY, 1, send_ping)
+
+        hardware.start()
     end)    
 end
  
 function module.start()   
   print ("Application starting")
-  hardware.start()
   mqtt_start() 
 end 
  
