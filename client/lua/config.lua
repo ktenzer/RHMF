@@ -16,18 +16,18 @@ module.HW_BUTTON_RED = 5
 module.HW_LED_BOTTOM_GREEN = 4
 module.HW_LED_BOTTOM_BLUE = 4
 module.HW_LED_BOTTOM_RED = 3
-
+  
 module.HW_LED_TOP_RED = 0 
 module.HW_LED_TOP_GREEN = 2 
 module.HW_LED_TOP_BLUE = 1 
  
 module.HW_LED_PINS = {
-    ["LED_BOTTOM_GREEN"] = HW_LED_BOTTOM_GREEN,
-    ["LED_BOTTOM_BLUE"] = HW_LED_BOTTOM_BLUE,
-    ["LED_BOTTOM_RED"] = HW_LED_BOTTOM_RED,   
-    ["LED_TOP_GREEN"] = HW_LED_TOP_GREEN,
-    ["LED_TOP_BLUE"] = HW_LED_TOP_BLUE,
-    ["LED_TOP_RED"] = HW_LED_TOP_RED,   
+    ["LED_BOTTOM_GREEN"] = module.HW_LED_BOTTOM_GREEN,
+    ["LED_BOTTOM_BLUE"] = module.HW_LED_BOTTOM_BLUE,
+    ["LED_BOTTOM_RED"] = module.HW_LED_BOTTOM_RED,   
+    ["LED_TOP_GREEN"] = module.HW_LED_TOP_GREEN,
+    ["LED_TOP_BLUE"] = module.HW_LED_TOP_BLUE,
+    ["LED_TOP_RED"] = module.HW_LED_TOP_RED,   
 }
 
 module.HW_LED_STATES = {
