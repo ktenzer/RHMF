@@ -25,7 +25,10 @@ import javax.persistence.EntityManager;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
@@ -39,22 +42,37 @@ public class MemberRegistration {
 
     @Inject
     private Event<Member> memberEventSrc;
+    
+    public static MQQTService mqqt = null;
+    public static MqttClient client = null;
 
+    
     public void register(Member member) throws Exception {
+    	
         log.info("Registering " + member.getGateway());
+        
         em.persist(member);
         memberEventSrc.fire(member);
         
-    	String server = "tcp://rhmfgateway:1883";
-    	String topic = "rhmfd/8635183";
+        if (mqqt == null) {
+        	log.info("creating connection");
+        	mqqt = new MQQTService();
+        	String server = "tcp://rhmfgateway:1883";
+        	client = mqqt.getConnection(member.getGateway());
+        }
+
+        client.subscribe(member.getDevice());
+    	//String server = "tcp://rhmfgateway:1883";
+    	//String topic = "rhmfd/8635183";
     	//String topic = "nodemcu/13574211";
-    	String message = "LED_TOP_GREEN=ON" + "\n" + "LED_TOP_BLUE=ON";
-        
-        MQQTService mqqt = new MQQTService();
-        MqttClient client = mqqt.getConnection(server);
-        mqqt.parseMessages(client, member.getDevice());
-        mqqt.sendMessage(client, topic, message);
-        mqqt.disconnect(client);
+    	//String message = "LED_TOP_GREEN=ON" + "\n" + "LED_TOP_BLUE=ON";
+    	//String topic = "rhmfd/ping";
+    	//client.subscribe(topic);
+    	//mqqt.parseMessages(client, topic);
+        //log.info("here " + client.getServerURI()); 
+        // mqqt.parseMessages(client, topic);
+        //mqqt.sendMessage(client, member.getDevice(), message);
+        //mqqt.disconnect(client);
     }
     
 } 

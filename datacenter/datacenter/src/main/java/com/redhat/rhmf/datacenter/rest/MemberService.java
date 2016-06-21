@@ -43,6 +43,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import com.redhat.rhmf.datacenter.data.MemberRepository;
 import com.redhat.rhmf.datacenter.model.Member;
@@ -84,6 +86,47 @@ public class MemberService {
     		mqqt.disconnect(client);
     	}
     */
+        MQQTService mqqt = MemberRegistration.mqqt;
+        MqttClient client = MemberRegistration.client;
+    	Map<String, MqttMessage> mapOfIds = MQQTService.mapOfIds;
+    	
+    	for (Map.Entry<String, MqttMessage> entry : mapOfIds.entrySet()) {
+    		System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
+    		String message = "LED_TOP_RED=ON\nLED_TOP_GREEN=ON\nLED_TOP_BLUE=ON\nLED_BOTTOM_RED=ON\nLED_BOTTOM_GREEN=ON\nLED_BOTTOM_BLUE=ON";
+    		String topic = "rhmfd/" + entry.getKey();
+    		
+            MqttMessage messageHandle = new MqttMessage();
+            messageHandle.setPayload(message.getBytes());
+            
+    		try {
+				client.publish(topic, messageHandle);
+			} catch (MqttException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	    
+    	}
+    
+	    try {
+	        Thread.sleep(5000);                 //1000 milliseconds is one second.
+	    } catch(InterruptedException ex) {
+	        Thread.currentThread().interrupt();
+	    }
+    	
+    	for (Map.Entry<String, MqttMessage> entry : mapOfIds.entrySet()) {
+    		String message = "LED_TOP_RED=OFF\nLED_TOP_GREEN=OFF\nLED_TOP_BLUE=OFF\nLED_BOTTOM_RED=OFF\nLED_BOTTOM_GREEN=OFF\nLED_BOTTOM_BLUE=OFF";
+    		String topic = "rhmfd/" + entry.getKey();
+    		
+    		MqttMessage messageHandle = new MqttMessage();
+            messageHandle.setPayload(message.getBytes());
+            
+    		try {
+				client.publish(topic, messageHandle);
+			} catch (MqttException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
         return repository.findAllOrderedByName();
     }
@@ -93,6 +136,8 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Member lookupMemberById(@PathParam("id") long id) {
         Member member = repository.findById(id);
+	
+        
         if (member == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
@@ -115,9 +160,9 @@ public class MemberService {
             validateMember(member);
 
             registration.register(member);
-            
+            builder = Response.ok().entity(member);           
             // Create an "ok" response
-            builder = Response.ok().entity(member);
+            //builder = Response.ok().entity(member);
         } catch (ConstraintViolationException ce) {
             // Handle bean validation issues
             builder = createViolationResponse(ce.getConstraintViolations());
