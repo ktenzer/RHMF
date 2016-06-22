@@ -143,6 +143,60 @@ public class MQQTService implements MqttCallback {
 	    //   "  QoS:\t" + message.getQos());
 
 	    mapOfIds.put(idString, message);
+	    
+	    //if (topic.contains("button")) {
+	    //	handleButtonMessage(topic, idString, message);
+	    //}
+	}
+	
+	private void handleButtonMessage(String topic, String idString, MqttMessage message) {
+		
+	    try {
+	        Thread.sleep(5000);                 //1000 milliseconds is one second.
+	    } catch(InterruptedException ex) {
+	        Thread.currentThread().interrupt();
+	    }
+		
+		String messageToString = null;
+		try {
+			messageToString = new String(message.getPayload(), "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		System.out.println("here test1" + messageToString);
+		
+		String myTopic = "rhmfd/" + idString;
+		System.out.println("here test2 " + myTopic);
+	    if (messageToString.contains("BUTTON_GREEN")) {
+	    	
+	    	System.out.println("here green");
+	   		
+	   		String myMessage = "LED_TOP_GREEN=ON";
+	        MqttMessage messageHandle = new MqttMessage();
+            messageHandle.setPayload(myMessage.getBytes());
+	            
+            this.sendMessage(client, myTopic, myMessage);
+	    		
+	    } else if (messageToString.contains("BUTTON_YELLOW")) {
+	    		
+	    	String myMessage = "LED_TOP_YELLOW=ON";
+	        MqttMessage messageHandle = new MqttMessage();
+	        messageHandle.setPayload(myMessage.getBytes());
+	            
+            this.sendMessage(client, myTopic, myMessage);	    		
+	    } else if (messageToString.contains("BUTTON_BLUE")) {
+	    		
+	    	String myMessage = "LED_TOP_BLUE=ON";
+	        MqttMessage messageHandle = new MqttMessage();
+	        messageHandle.setPayload(myMessage.getBytes());
+	            
+            this.sendMessage(client, myTopic, myMessage);	    		
+	    } else {
+	    	System.out.println("Unexpected button signal");
+	    }
+	    
 	}
 
 }
