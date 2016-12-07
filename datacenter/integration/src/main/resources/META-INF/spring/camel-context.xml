@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean
+        class="org.apache.camel.spring.spi.BridgePropertyPlaceholderConfigurer" id="bridgePropertyPlaceholder">
+        <property name="location" value="classpath:broker.properties"/>
+    </bean>
+    <camelContext id="mfk-datacenter" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration component="netty4-http" host="0.0.0.0" port="8080" bindingMode="off"/>
+        <rest path="/rhmf" consumes="application/json" produces="text/plain">
+            <get uri="/device/led/{device}/{position}/{colour}/{status}">
+                <to uri="direct:setLED"/>
+            </get>
+        </rest>
+        <route id="mqtt-button">
+            <from id="gateway.mqtt.button" uri="mqtt://datacenter?host={{broker.host}}&amp;userName={{broker.userName}}&amp;password={{broker.password}}&amp;subscribeTopicName=rhmfd/button"/>
+            <log message="received ${body}"/>
+            <setHeader headerName="device"><simple>13580212</simple></setHeader>
+            <setHeader headerName="position"><simple>TOP</simple></setHeader>
+            <setHeader headerName="colour"><simple>GREEN</simple></setHeader>
+            <setHeader headerName="status"><simple>ON</simple></setHeader>
+            <log message="sent ${body}"/>
+            <to uri="direct:setLED"/>           
+        </route>
+        <route id="mqtt-ping">
+            <from id="gateway.mqtt.ping" uri="mqtt://datacenter?host={{broker.host}}&amp;userName={{broker.userName}}&amp;password={{broker.password}}&amp;subscribeTopicName=rhmfd/ping"/>
+            <log message="received ${body}"/>
+        </route>
+        <route id="direct.device.led.status"> 
+           <from uri="direct:setLED"/>
+           <setBody>
+             <simple>LED_${header.position}_${header.colour}=${header.status}</simple>
+           </setBody>
+           <log message="Sending message to device ${body}"/>
+           <recipientList ignoreInvalidEndpoints="true" stopOnException="false" streaming="false">
+             <method bean="com.redhat.rhmf.gateway.device.DeviceRouter" method="routeTo"/>
+           </recipientList>
+        </route>
+    </camelContext>
+</beans>
