@@ -42,7 +42,7 @@ end
 
 local function mqtt_start()  
     print ("mqtt start")
-    m = mqtt.Client(config.MQTT_ID, 120)
+    m = mqtt.Client(config.MQTT_ID, 120, config.MQTT_USER, config.MQTT_PSWD)
     -- register message callback beforehand
     m:on("message", function(conn, topic, data) 
       if data ~= nil then

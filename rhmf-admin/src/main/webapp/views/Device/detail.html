@@ -1,0 +1,31 @@
+<header ng-switch on="$location.path().indexOf('/Devices/new') > -1">
+    <h3 ng-switch-when="true">Create a new Device</h3>
+    <h3 ng-switch-when="false">View or edit Device</h3>
+</header>
+<form id="DeviceForm" name="DeviceForm" class="form-horizontal" role="form">
+    
+
+    <div class="form-group" ng-class="{'has-error': DeviceForm.deviceId.$invalid}">
+        <label for="deviceId" class="col-sm-2 control-label">Device Id</label>
+        <div id="deviceIdControls" class="col-sm-10">
+            <input id="deviceId" name="deviceId" type="text" class="form-control" ng-model="device.deviceId" placeholder="Enter the Device Device Id"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': DeviceForm.voterName.$invalid}">
+        <label for="voterName" class="col-sm-2 control-label">Voter Name</label>
+        <div id="voterNameControls" class="col-sm-10">
+            <input id="voterName" name="voterName" type="text" ng-maxlength="50" class="form-control" ng-model="device.voterName" placeholder="Enter the Device Voter Name"></input>
+            <span class="help-block error" ng-show="DeviceForm.voterName.$error.maxlength">maximum length is 50</span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveDevice" name="saveDevice" class="btn btn-primary" ng-disabled="isClean() || DeviceForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteDevice" name="deleteDevice" class="btn btn-danger" ng-show="device.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

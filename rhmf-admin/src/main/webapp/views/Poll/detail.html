@@ -1,0 +1,69 @@
+<header ng-switch on="$location.path().indexOf('/Polls/new') > -1">
+    <h3 ng-switch-when="true">Create a new Poll</h3>
+    <h3 ng-switch-when="false">View or edit Poll</h3>
+</header>
+<form id="PollForm" name="PollForm" class="form-horizontal" role="form">
+    
+
+    <div class="form-group" ng-class="{'has-error': PollForm.name.$invalid}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div id="nameControls" class="col-sm-10">
+            <input id="name" name="name" type="text" class="form-control" ng-model="poll.name" placeholder="Enter the Poll Name"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.isOpen.$invalid}">
+        <label for="isOpen" class="col-sm-2 control-label">Is Open</label>
+        <div id="isOpenControls" class="col-sm-10">
+            <input id="isOpen" name="isOpen" type="text" class="form-control" ng-model="poll.isOpen" placeholder="Enter the Poll Is Open"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.isDefault.$invalid}">
+        <label for="isDefault" class="col-sm-2 control-label">Is Default</label>
+        <div id="isDefaultControls" class="col-sm-10">
+            <input id="isDefault" name="isDefault" type="text" class="form-control" ng-model="poll.isDefault" placeholder="Enter the Poll Is Default"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.createTime.$invalid}">
+        <label for="createTime" class="col-sm-2 control-label">Create Time</label>
+        <div id="createTimeControls" class="col-sm-10">
+            <date id="createTime" name="createTime" ng-model="poll.createTime" placeholder="Enter the Poll Create Time"></date>
+            <span class="help-block error" ng-show="PollForm.createTime.$error.dateFormat">does not match format "yyyy-MM-dd" (e.g. 2013-12-01)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.startTime.$invalid}">
+        <label for="startTime" class="col-sm-2 control-label">Start Time</label>
+        <div id="startTimeControls" class="col-sm-10">
+            <date id="startTime" name="startTime" ng-model="poll.startTime" placeholder="Enter the Poll Start Time"></date>
+            <span class="help-block error" ng-show="PollForm.startTime.$error.dateFormat">does not match format "yyyy-MM-dd" (e.g. 2013-12-01)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.isArchived.$invalid}">
+        <label for="isArchived" class="col-sm-2 control-label">Is Archived</label>
+        <div id="isArchivedControls" class="col-sm-10">
+            <input id="isArchived" name="isArchived" type="text" class="form-control" ng-model="poll.isArchived" placeholder="Enter the Poll Is Archived"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PollForm.vote.$invalid}">
+        <label for="vote" class="col-sm-2 control-label">Vote</label>
+        <div id="voteControls" class="col-sm-10">
+            <select id="vote" name="vote" multiple class="form-control" ng-model="voteSelection" ng-options="v.text for v in voteSelectionList">
+                <option value="">Choose a Vote</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="savePoll" name="savePoll" class="btn btn-primary" ng-disabled="isClean() || PollForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deletePoll" name="deletePoll" class="btn btn-danger" ng-show="poll.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
